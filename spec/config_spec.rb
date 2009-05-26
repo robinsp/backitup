@@ -22,6 +22,11 @@ describe BackItUp::Config do
     it "should have empty array of files by default" do 
       @config.files.should == []
     end
+    
+    it "should have empty array of dirs by default" do 
+      @config.dirs.should == []
+    end
+    
       
     describe "backup()" do 
       it "should yield to block" do 
@@ -36,6 +41,10 @@ describe BackItUp::Config do
     end
     
     describe "file()" do 
+      before do 
+        @valid_file = File.expand_path(File.dirname(__FILE__) + '/test-config.backitup')
+      end
+
       it "should warn if file doesn't exist" do 
         file_name = "should-not-exist"
         BackItUp::Config.any_instance.expects(:puts).with("WARNING: File should-not-exist could not be found")
@@ -58,12 +67,20 @@ describe BackItUp::Config do
       end
       
       it "should add the file to the files array" do 
-        valid_file = File.expand_path(File.dirname(__FILE__) + '/test-config.backitup')
-        @config.file(valid_file)
-        @config.files.pop.should == valid_file
+        @config.file(@valid_file)
+        @config.files.pop.should == @valid_file
       end
       
-      it "should check if argument is directory"
+      it "should check if file argument is directory" do 
+        File.expects(:directory?).returns(false)        
+        @config.file(@valid_file)
+      end
+      
+      it "should add directories to dirs array" do 
+        File.stubs(:directory?).returns(true)
+        @config.file(@valid_file)
+        @config.dirs.pop.should == @valid_file
+      end
     end
   end
   

@@ -1,6 +1,6 @@
 module BackItUp
   class Config
-    attr_reader :files
+    attr_reader :files, :dirs
     
     def initialize(file_handle)
       file_content = ""
@@ -12,6 +12,7 @@ module BackItUp
       eval(file_content)
       
       @files = []      
+      @dirs = []
     end
     
     def backup
@@ -22,7 +23,12 @@ module BackItUp
 
       unless (filename  == "" || filename == nil)
         if File.exists?(filename)
-          @files << filename    
+          if File.directory? filename
+            @dirs << filename
+          else
+            @files << filename
+          end
+              
         else 
           puts "WARNING: File #{filename} could not be found"    
         end
