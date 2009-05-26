@@ -10,6 +10,12 @@ describe BackItUp::Config do
     BackItUp::Config.new(file)
   end
   
+  it "should be able to handle our test config" do 
+    test_file = File.dirname(__FILE__) + "/test-config.backitup"
+    
+    BackItUp::Config.new(File.open(test_file))
+  end
+  
   describe "" do 
     before do 
       mock_file = mock('mock-file')

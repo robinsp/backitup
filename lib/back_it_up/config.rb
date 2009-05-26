@@ -21,9 +21,7 @@ module BackItUp
     
     def destination_file(filename) 
       raise "Invalid destination file." if File.directory?(filename)
-      
       @dest_filename = filename
-      
     end
     
     def file(filename = nil)
@@ -42,5 +40,7 @@ module BackItUp
       end
       
     end
+    
+    alias_method :dir, :file
   end  
 end
