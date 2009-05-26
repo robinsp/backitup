@@ -3,7 +3,7 @@ backup do
   file 'any-filename'
   dir 'a directory'
   
-  to_localfile "backup_name"
+  destination_file "backup_name"
   
   #ftp_to
   #scp_to

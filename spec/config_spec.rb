@@ -7,9 +7,7 @@ describe BackItUp::Config do
     file.expects(:gets).twice.returns("file 'string'", nil)
     
     BackItUp::Config.any_instance.expects(:file).with("string")
-    
     BackItUp::Config.new(file)
-    
   end
   
   describe "" do 
@@ -27,6 +25,19 @@ describe BackItUp::Config do
       @config.dirs.should == []
     end
     
+    describe "destination_file()" do 
+      
+      it "should save the filename to dest_filename attribute" do 
+        filename = File.expand_path(File.dirname(__FILE__) + "backup") 
+        @config.destination_file(filename)
+        @config.dest_filename.should == filename
+      end
+      
+      it "should fail if filename is an existing directory" do 
+        filename = File.expand_path(File.dirname(__FILE__) )
+        lambda { @config.destination_file(filename) }.should raise_error("Invalid destination file.")
+      end
+    end
       
     describe "backup()" do 
       it "should yield to block" do 

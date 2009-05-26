@@ -1,6 +1,6 @@
 module BackItUp
   class Config
-    attr_reader :files, :dirs
+    attr_reader :files, :dirs, :dest_filename
     
     def initialize(file_handle)
       file_content = ""
@@ -17,6 +17,13 @@ module BackItUp
     
     def backup
       yield
+    end
+    
+    def destination_file(filename) 
+      raise "Invalid destination file." if File.directory?(filename)
+      
+      @dest_filename = filename
+      
     end
     
     def file(filename = nil)
