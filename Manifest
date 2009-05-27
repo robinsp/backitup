@@ -1,0 +1,14 @@
+bin/backitup
+spec/test-config.backitup
+spec/file_packager_spec.rb
+spec/config_spec.rb
+spec/runner_spec.rb
+spec/spec.opts
+spec/spec_helper.rb
+Rakefile
+Manifest
+lib/back_it_up.rb
+lib/back_it_up/config.rb
+lib/back_it_up/file_packager.rb
+lib/back_it_up/command.rb
+lib/back_it_up/runner.rb
