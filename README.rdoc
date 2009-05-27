@@ -1,0 +1,12 @@
+== To be written
+
+Right now, this readme is only used as my notepad of what I need to put in here.
+
+
+	 $ sudo gem sources -a http://gems.github.com
+	 
+	 $ sudo gem install robinsp-backitup
+
+
+Windows users need to specify files and dirs with single quotes.
+	
