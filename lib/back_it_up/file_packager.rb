@@ -18,7 +18,9 @@ module BackItUp
       
       Zip::ZipFile.open(target_filename, Zip::ZipFile::CREATE) do |zip|
         @config.files.each do |filename|
-          zip.add("./#{prefix}#{filename}", filename)
+          zip_entry = "#{prefix}#{filename.gsub(/^(.):/, '/\1_drive')}"
+          
+          zip.add(zip_entry, filename)
         end
       end
       
