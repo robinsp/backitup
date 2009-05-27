@@ -14,9 +14,11 @@ module BackItUp
     def package
       target_filename = create_target_filename
       
+      prefix = File.basename(target_filename, ".zip")
+      
       Zip::ZipFile.open(target_filename, Zip::ZipFile::CREATE) do |zip|
         @config.files.each do |filename|
-          zip.add(File.basename(filename), File.dirname(filename) )
+          zip.add("./#{prefix}#{filename}", filename)
         end
       end
       
@@ -25,7 +27,7 @@ module BackItUp
     
     protected 
     def create_target_filename
-      @config.dest_filename + "_#{timestamp}.zip"
+      @config.dest_filename + "_#{timestamp}" + ".zip"
     end
     
     private 
