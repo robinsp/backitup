@@ -12,15 +12,25 @@ module BackItUp
     end
     
     def package
-      dst_filename = @config.dest_filename
+      target_filename = create_target_filename
       
-      Zip::ZipFile.open(dst_filename, Zip::ZipFile::CREATE) do |zip|
+      Zip::ZipFile.open(target_filename, Zip::ZipFile::CREATE) do |zip|
         @config.files.each do |filename|
           zip.add(File.basename(filename), File.dirname(filename) )
         end
       end
       
-      @produced_file = dst_filename
+      @produced_file = target_filename
+    end
+    
+    protected 
+    def create_target_filename
+      @config.dest_filename + "_#{timestamp}.zip"
+    end
+    
+    private 
+    def timestamp
+      Time.now.strftime("%Y%m%d_%H%M%S")
     end
   end
 end

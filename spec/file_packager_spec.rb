@@ -34,7 +34,9 @@ describe BackItUp::FilePackager do
       @packager.package.should =~ /^#{@configured_dst_filename}/
     end
     
-    it "should produce a file name with timestamp and zip suffix"
+    it "should append timestamp and zip suffix to destination file name from config" do 
+      @packager.package.should =~ /^#{@configured_dst_filename}_[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9][0-9][0-9].zip/
+    end
     
     it "should return name of produced file" do 
       @packager.package.should_not be_nil
