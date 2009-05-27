@@ -3,16 +3,16 @@ module BackItUp
     attr_reader :files, :dirs, :dest_filename
     
     def initialize(file_handle)
+      @files = []      
+      @dirs = []    
+      
       file_content = ""
-    
+
       while l = file_handle.gets do 
         file_content << l
       end
       
       eval(file_content)
-      
-      @files = []      
-      @dirs = []
     end
     
     def backup
