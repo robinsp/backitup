@@ -1,0 +1,11 @@
+
+# sample.backitup
+
+backup do 
+
+	file '/home/robin/backup.this.file'		
+
+	dir "~/Desktop/drop-in-me-for-backup"
+	
+	destination_file "/tmp/backupfile"
+end
