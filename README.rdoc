@@ -1,12 +1,37 @@
-== To be written
+= BackItUp
 
-Right now, this readme is only used as my notepad of what I need to put in here.
+<em>This is still in the workings and right now it is only an advanced zip file creator.</em>
 
+== Install
 
-	 $ sudo gem sources -a http://gems.github.com
+Add GitHub to your gem sources if you haven't already:
+
+	$ sudo gem sources -a http://gems.github.com
 	 
-	 $ sudo gem install robinsp-backitup
+Install the gem:	 
 
+	$ sudo gem install robinsp-backitup
+	 
+This should have installed the _backitup_ command. Running 
 
-Windows users need to specify files and dirs with single quotes.
+	$ backitup 
+	
+...should print the usage instructions if everything is set up ok.
+
+== Usage 
+
+Create a backup script looking something like this
+
+	# sample.backitup
+	backup do 
+	  file '/home/robin/backup.this.file'		
+	
+	  dir "~/Desktop/drop-in-me-for-backup"
+		
+	  destination_file "/tmp/backupfile"
+	end
+
+Run *backitup* with your script file as argument
+
+	$ backitup sample.backitup
 	
