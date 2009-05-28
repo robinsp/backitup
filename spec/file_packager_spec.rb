@@ -14,13 +14,12 @@ describe BackItUp::FilePackager do
   describe "package()" do 
     before do 
       @first_file_to_add = "/etc/passwd"
-      @second_file_to_add = "/etc/httpd/apache.cfg"
       
       @configured_dst_filename = "/backups/a-file-name"
       @mock_config = mock
       @mock_config.stubs(:is_a? => true)
       @mock_config.stubs(:dest_filename).returns(@configured_dst_filename)
-      @mock_config.stubs(:files).returns([@first_file_to_add, @second_file_to_add])
+      @mock_config.stubs(:each_file).yields(@first_file_to_add)
 
       @mock_zip = mock("mock-zip")
       @mock_zip.stubs(:add)
@@ -56,15 +55,12 @@ describe BackItUp::FilePackager do
     
     it "should add files to the zip" do 
       prefix = "#{File.basename(@configured_dst_filename)}"
-      
       @mock_zip.expects(:add).with( regexp_matches(/^#{prefix}.*#{@first_file_to_add}$/), @first_file_to_add )
-      @mock_zip.expects(:add).with( regexp_matches(/^#{prefix}.*#{@second_file_to_add}$/), @second_file_to_add )
-      
       @packager.package
     end
     
     it "should strip the drive letter for windows files added to zip" do 
-      @mock_config.stubs(:files).returns(["C:\temp\myfile"])
+      @mock_config.stubs(:each_file).yields("C:\temp\myfile")
       @mock_zip.expects(:add).with( regexp_matches(/\/C_drive/), regexp_matches(/.*/) )
       @packager.package
     end

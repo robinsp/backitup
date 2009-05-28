@@ -17,11 +17,12 @@ module BackItUp
       prefix = File.basename(target_filename, ".zip")
       
       Zip::ZipFile.open(target_filename, Zip::ZipFile::CREATE) do |zip|
-        @config.files.each do |filename|
+        
+        @config.each_file do |filename|
           zip_entry = "#{prefix}#{filename.gsub(/^(.):/, '/\1_drive')}"
-          
           zip.add(zip_entry, filename)
         end
+        
       end
       
       @produced_file = target_filename
