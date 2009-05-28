@@ -15,6 +15,10 @@ module BackItUp
       eval(file_content)
     end
     
+    def each_file 
+      FileList.new(@files, @dirs).files.each {|filename| yield filename }
+    end
+    
     def backup
       yield
     end

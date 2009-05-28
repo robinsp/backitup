@@ -16,6 +16,7 @@ describe BackItUp::Config do
     BackItUp::Config.new(File.open(test_file))
   end
   
+  
   describe "" do 
     before do 
       mock_file = mock('mock-file')
@@ -29,6 +30,32 @@ describe BackItUp::Config do
     
     it "should have empty array of dirs by default" do 
       @config.dirs.should == []
+    end
+    
+    describe "each_file()" do 
+      before do 
+        @mock_file_list = mock("FileList")
+        @mock_file_list.stubs(:files).returns([])
+        BackItUp::FileList.stubs(:new).returns(@mock_file_list)
+      end
+      
+      it "should create FileList" do 
+        BackItUp::FileList.expects(:new).with(@config.files, @config.dirs).returns(@mock_file_list)
+        @config.each_file
+      end
+      
+      it "should yield all files in FileList" do 
+        expected_files = ["file_one", "file_two", "file_three"]
+        
+        @mock_file_list.expects(:files).returns(expected_files)
+        
+        result = []
+        @config.each_file do |f|
+          result << f
+        end
+        
+        result.should == expected_files
+      end
     end
     
     describe "destination_file()" do 
