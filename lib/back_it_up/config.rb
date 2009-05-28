@@ -1,4 +1,5 @@
 module BackItUp
+  
   module ScriptDSL 
     
     def backup
@@ -7,11 +8,13 @@ module BackItUp
     
     def file(filename = nil)
       unless (filename  == "" || filename == nil)
-        if File.exists?(filename)
-          if File.directory? filename
-            @dirs << filename
+        full_name = File.expand_path(filename)
+        
+        if File.exists?(full_name)
+          if File.directory? full_name
+            @dirs << full_name
           else
-            @files << filename
+            @files << full_name
           end
               
         else 

@@ -95,6 +95,13 @@ describe BackItUp::Config do
         @config.file(file_name)
       end
       
+      it "should expand paths" do 
+        File.stubs(:exists?).returns(true)
+        File.expects(:expand_path).with("filename").returns("expanded_filename")
+        @config.file("filename")
+        @config.files.pop.should == "expanded_filename"
+      end
+      
       it "should not add non-existning files to files attribute" do 
         file_name = "should-not-exist"
         @config.file(file_name)
@@ -106,6 +113,7 @@ describe BackItUp::Config do
       end
       
       it "should check if file exists" do 
+        File.stubs(:expand_path).with("filename").returns("filename")
         File.expects(:exists?).with("filename").returns(false)
         @config.file("filename")
       end
