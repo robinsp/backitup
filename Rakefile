@@ -2,8 +2,8 @@ require 'spec'
 require 'spec/rake/spectask'
 require 'echoe'
 
-Echoe.new('backitup', '0.0.1') do |p|
-  p.description    = "Simple backup"
+Echoe.new('backitup', '0.0.2') do |p|
+  p.description    = "Simple backup tool"
   p.url            = "http://github.com/robinsp/backitup"
   p.author         = "Robin Spainhour"
   p.email          = "robin@robinspainhour.com"
