@@ -1,11 +1,43 @@
 module BackItUp
   
+  # The backup script should look something like this
+  #
+  #    # sample.backitup
+  #    
+  #    backup do 
+  #    
+  #      file '/home/robin/backup.this.file'   
+  #    
+  #      dir '~/Desktop/drop-in-me-for-backup'
+  #      
+  #      destination_file "/tmp/backupfile"
+  #    end
+  #
+  # This will backup the file <tt>/home/robin/backup.this.file</tt> and all the files
+  # in the <tt>~/Desktop/drop-in-me-for-backup</tt> directory and its sub dirs, and 
+  # place them in <tt>/tmp/backupfile_[date]_time.zip</tt>.
   module ScriptDSL 
     
+    # Starts off the backup script. 
+    #
+    # Usage:
+    #
+    #   backup do 
+    #     # add your files, dirs etc. here...
+    #   end
     def backup
       yield
     end
     
+    # File or directory name to add to the backup set. The given file name is expanded before 
+    # added to the backup set.
+    # 
+    # It is safer to use single quotes (especially on Windows file systems) as the support
+    # for escape sequences is not as great as double-quoted strings.
+    #
+    #   file '~/importantfile'  # is safer 
+    #   file "~/anotherfile"    # ...than this
+    #
     def file(filename = nil)
       unless (filename  == "" || filename == nil)
         full_name = File.expand_path(filename)
