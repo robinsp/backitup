@@ -134,6 +134,33 @@ describe BackItUp::Config do
         @config.dirs.pop.should == @valid_file
       end
     end
+    
+    describe "ftp()" do 
+      it "should require host" do 
+        lambda{ @config.ftp("", "string", "string") }.should raise_error(BackItUp::ScriptDSL::INVALID_FTP_ARG_MSG) 
+      end
+      it "should require username" do 
+        lambda{ @config.ftp("string", "", "string") }.should raise_error(BackItUp::ScriptDSL::INVALID_FTP_ARG_MSG) 
+      end
+      it "should require password" do 
+        lambda{ @config.ftp("string", "string", "") }.should raise_error(BackItUp::ScriptDSL::INVALID_FTP_ARG_MSG) 
+      end
+      
+      it "should save args to ftp_options attribute" do 
+        @config.ftp("host", "user", "passwd")
+        @config.ftp_options.should == {:user => "user", :passwd => "passwd", :host => "host"}
+      end
+      
+      it "should save options when given" do 
+        @config.ftp("host", "user", "passwd", :an_option => "the_option")
+        @config.ftp_options.should == {:user => "user", :passwd => "passwd", :host => "host", :an_option => "the_option"}
+      end
+      
+      it "should not override host, user and passwd args when these are given in options" do 
+        @config.ftp("host", "user", "passwd", :user => "user1", :passwd => "passwd1", :host => "host1")
+        @config.ftp_options.should == {:user => "user", :passwd => "passwd", :host => "host"}
+      end
+    end
   end
   
 end
