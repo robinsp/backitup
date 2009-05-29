@@ -1,6 +1,7 @@
 = BackItUp
 
-<em>This is still in the workings and right now it is only an advanced zip file creator.</em>
+Simple tool to easily configure the files and directories to copy to a local zip file
+and FTP (optional) to a remote host.
 
 == Install
 
@@ -29,6 +30,8 @@ Create a backup script looking something like this
 	  dir "~/Desktop/drop-in-me-for-backup"
 		
 	  destination_file "/tmp/backupfile"
+	  
+	  ftp 'host.domain.com', 'username', 'password', :remote_dir => 'backups'
 	end
 
 Run *backitup* with your script file as argument
