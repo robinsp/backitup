@@ -1,11 +1,9 @@
-
 # sample.backitup
-
 backup do 
-
 	file '/home/robin/backup.this.file'		
-
 	dir "~/Desktop/drop-in-me-for-backup"
 	
 	destination_file "/tmp/backupfile"
+	
+	ftp 'host.domain.com', 'username', 'password', :remote_dir => 'backups'
 end
