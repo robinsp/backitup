@@ -20,6 +20,10 @@ module BackItUp
     INVALID_FTP_ARG_MSG = "Invalid arguments for ftp"
 
     # After packaging backup set send the file to this server.
+    #
+    # Options:
+    #   <tt>:remote_dir</tt>  Remote directory on FTP host
+    #
     def ftp(host, user, passwd, options = {} )
       raise INVALID_FTP_ARG_MSG if host.blank? || user.blank? || passwd.blank?
       
