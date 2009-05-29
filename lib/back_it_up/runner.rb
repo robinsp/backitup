@@ -5,7 +5,11 @@ module BackItUp
       
       file = File.open(filename) 
       config = Config.new(file)
-      puts "Wrote backup to: #{ FilePackager.new(config).package }"
+      packaged_filename = FilePackager.new(config).package
+      puts "Wrote backup to: #{ packaged_filename }"
+      
+      BackItUp::Ftp.new(config.ftp_options).transfer(packaged_filename) if config.ftp_options
+      
     end
   end
 end

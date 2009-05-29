@@ -17,7 +17,7 @@ describe BackItUp::Runner do
       @file = mock('fake file handle')
       File.stubs(:open).with(@filename).returns(@file)
       
-      @mock_config = mock('mock-config')
+      @mock_config = stub('mock-config', :ftp_options => nil)
       BackItUp::Config.stubs(:new).returns(@mock_config)
       
       @mock_packager
@@ -43,6 +43,15 @@ describe BackItUp::Runner do
     
     it "should print name of packaged file" do 
       BackItUp::Runner.any_instance.expects(:puts).with {|s| s =~ /#{@package_result_filename}/ }
+      BackItUp::Runner.new(@filename)
+    end
+    
+    it "should transfer packaged file if ftp is configured" do
+      ftp_config = {:ftp => "config"}
+      @mock_config.stubs(:ftp_options).returns(ftp_config)
+      ftp = mock('ftp')
+      BackItUp::Ftp.expects(:new).with(ftp_config).returns(ftp)
+      ftp.expects(:transfer).with(@package_result_filename)
       BackItUp::Runner.new(@filename)
     end
     
