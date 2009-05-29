@@ -11,7 +11,7 @@ module BackItUp
       Net::FTP.open(@options[:host]) do |ftp|
         ftp.login(@options[:user], @options[:passwd] )
         ftp.chdir(@options[:remote_dir]) if @options[:remote_dir]
-        ftp.putbinary(filename)
+        ftp.putbinaryfile(filename)
       end
     end
   end  

@@ -20,7 +20,7 @@ describe BackItUp::Ftp do
   describe "transfer()" do 
     before do 
       @filename = "thefilename"
-      @mock_ftp = stub("mock-ftp", :login => "", :putbinary => "")
+      @mock_ftp = stub("mock-ftp", :login => "", :putbinaryfile => "")
       
       Net::FTP.stubs(:open).with(@host).yields(@mock_ftp)
       @ftp = BackItUp::Ftp.new(@options)
@@ -37,7 +37,7 @@ describe BackItUp::Ftp do
     end
     
     it "should put binary file" do 
-      @mock_ftp.expects(:putbinary).with(@filename)
+      @mock_ftp.expects(:putbinaryfile).with(@filename)
       @ftp.transfer(@filename)
     end
     
